@@ -1,0 +1,31 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+/dist
+/tmp
+/out
+
+# vite-specific
+.vite/
+
+# misc
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+pnpm-lock.yaml
+package-lock.json
+
+# IDEs and other ignored directories
+.idea/
+.vscode/
+*.swp
