@@ -47,17 +47,17 @@ const HomePage = () => {
   ];
 
   return (
-    <main className="flex flex-col items-center w-full">
+    <main className="flex flex-col items-center w-screen mx-auto">
       {/* 1. 히어로 섹션: 핵심 가치 제안 및 Pain Point 해결 강조 */}
       {/* [cite: 4] "식재료를 구출하라!" 슬로건 활용 */}
       {/*  "애호박 하나에 3천 원"이라는 자취생의 고민을 직접적으로 타격 */}
-      <section className="flex flex-col items-center w-full px-4 py-20 text-center bg-orange-50">
-        <span className="px-3 py-1 mb-4 text-sm font-bold text-orange-600 bg-orange-100 rounded-full">
-          우리 동네 마감 할인 플랫폼 🥕
+      <section className="flex flex-col items-center w-full px-4 py-20 text-center bg-sikggu-primary-50">
+        <span className="px-3 py-1 mb-4 text-sm font-bold rounded-full bg-sikggu-primary-100 text-sikggu-primary">
+          우리 동네 마감 할인 플랫폼 <b>SIKGGU</b> 🥦🥕
         </span>
         <h1 className="mb-6 text-4xl font-extrabold leading-tight text-gray-900 md:text-5xl">
           애호박 하나 3천원, <br className="md:hidden" />
-          <span className="text-orange-500">부담스러우셨죠?</span>
+          <span className="text-red-500">부담스러우셨죠?</span>
         </h1>
         <p className="max-w-2xl mb-8 text-lg text-gray-600 md:text-xl">
           매일 버려지는 멀쩡한 식재료를 구출하고, <br />
@@ -65,8 +65,8 @@ const HomePage = () => {
         </p>
         <div className="flex gap-4">
           <button
-            onClick={() => navigate("/products")}
-            className="px-8 py-4 text-lg font-bold text-white transition transform bg-orange-500 shadow-lg hover:bg-orange-600 rounded-xl hover:-translate-y-1"
+            onClick={() => navigate("/sign-in")}
+            className="px-8 py-4 text-lg font-bold text-white transition transform shadow-lg bg-sikggu-primary hover:bg-sikggu-primary-700 rounded-xl hover:-translate-y-1"
           >
             내 주변 마감세일 보기
           </button>
@@ -118,8 +118,8 @@ const HomePage = () => {
               지금 구출을 기다리는 식재료 🔥
             </h2>
             <button
-              onClick={() => navigate("/products")}
-              className="font-semibold text-orange-500 hover:underline"
+              onClick={() => navigate("/sign-in")}
+              className="font-semibold text-sikggu-primary hover:underline"
             >
               전체보기 &gt;
             </button>
@@ -184,7 +184,7 @@ const HomePage = () => {
           <span className="font-bold text-green-600">1,240kg</span>의 식재료가
           버려지지 않고,
           <br />
-          <span className="font-bold text-orange-600">350곳</span>의 동네
+          <span className="font-bold text-sikggu-primary">350곳</span>의 동네
           사장님이 웃음을 되찾았어요.
         </p>
         <div className="flex items-center justify-center w-full h-40 max-w-4xl mx-auto text-gray-400 bg-gray-100 rounded-2xl">
@@ -193,13 +193,13 @@ const HomePage = () => {
       </section>
 
       {/* 5. 하단 CTA */}
-      <section className="w-full px-4 py-16 text-center text-white bg-orange-500">
+      <section className="w-full px-4 py-16 text-center text-white bg-sikggu-primary">
         <h2 className="mb-6 text-3xl font-bold">
           오늘 저녁, 알뜰하게 챙겨볼까요?
         </h2>
         <button
-          onClick={() => navigate("/auth/signup")}
-          className="px-10 py-4 text-lg font-bold text-orange-600 transition bg-white shadow-lg rounded-xl hover:bg-gray-100"
+          onClick={() => navigate("/sign-in")}
+          className="px-10 py-4 text-lg font-bold transition bg-white shadow-lg text-sikggu-primary rounded-xl hover:bg-gray-100"
         >
           3초 만에 시작하기
         </button>

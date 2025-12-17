@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import AuthPageLayout from "../components/layout/AuthPageLayout";
-import GoogleIcon from "../components/svg/GoogleIcon";
-import KakaoIcon from "../components/svg/KakaoIcon";
+import AuthPageLayout from "../../components/layout/AuthPageLayout";
+import GoogleIcon from "../../components/svg/GoogleIcon";
+import KakaoIcon from "../../components/svg/KakaoIcon";
 
 const SignInPage = () => {
   const handleSubmit = () => {
@@ -55,9 +55,12 @@ const SignInPage = () => {
         </div>
         <span className="flex justify-center w-full text-sikggu-gray-500">
           식구가 처음이신가요?
-          <strong className="ml-2 underline cursor-pointer ml-3font-medium text-sikggu-primary-500 hover:text-sikggu-primary-700">
+          <Link
+            to={"/sign-up?type=intro"}
+            className="ml-2 underline cursor-pointer ml-3font-medium text-sikggu-primary-500 hover:text-sikggu-primary-700"
+          >
             회원가입
-          </strong>
+          </Link>
         </span>
       </form>
     </AuthPageLayout>
