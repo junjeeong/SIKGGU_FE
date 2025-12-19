@@ -23,8 +23,20 @@ const HomePage = () => {
             <img src="/icons/logo.png" alt="식구" width={120} className="p-4" />
           </header>
         </Link>
+        <div className="py-8 text-center">
+          <h3 className="text-xl font-bold leading-snug text-slate-800">
+            우리 동네 마트{" "}
+            <span className="text-orange-500 underline underline-offset-4">
+              마감 세일
+            </span>
+            <br />
+            놓치기엔 너무 아까운{" "}
+            <span className="text-sikggu-primary">신선함</span>
+          </h3>
+        </div>
+
         {/* 1. 스토리텔링 히어로 섹션 */}
-        <section className="px-6 pt-12 pb-16 space-y-16">
+        <section className="px-6 pb-16 space-y-16">
           <div className="space-y-4">
             <div className="overflow-hidden shadow-lg rounded-3xl aspect-video bg-slate-200">
               <img
@@ -92,9 +104,9 @@ const HomePage = () => {
               서로가 서로를 필요로 하는 순간을
               <br />
               <b className="font-extrabold text-emerald-600">
-                위치 기반 마감 할인
+                위치 기반 마감 할인 서비스
               </b>
-              으로 가장 빠르게 연결합니다.
+              로 빠르게 연결합니다.
             </p>
             <button
               onClick={() => navigate("/sign-up")}

@@ -13,7 +13,7 @@ const SignUpPage = () => {
     const token = localStorage.getItem("accessToken");
 
     if (token) {
-      alert('계정이 로그인 되어 있어 "/stores" 페이지로 리다이렉트 됩니다.');
+      alert('🔔 계정이 로그인 되어 있어 "/stores" 페이지로 리다이렉트 됩니다.');
       navigate("/stores", { replace: true });
     }
   }, [navigate]);
