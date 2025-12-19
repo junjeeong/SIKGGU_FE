@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const ProductInformationCard = ({ info }: { info: any }) => {
   return (
-    <Link to={`/stores/{storeId}/products/{productId}`} className="group">
+    <Link to={`/stores/1/products/${info.id}`} className="group">
       <article className="flex w-full h-32 gap-2 border-b-2 border-gray-50 group-hover:bg-sikggu-primary-50">
         <figure className="flex-shrink-0 w-40 h-full overflow-hidden border-gray-50">
           <img

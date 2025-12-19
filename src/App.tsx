@@ -1,3 +1,4 @@
+import ProductDetailPage from "@/pages/products/ProductDetailPage";
 import StoreProductsPage from "@/pages/store/StoreProductsPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import SignInPage from "./pages/auth/SignInPage";
@@ -17,10 +18,10 @@ function App() {
           path="/stores/:storeId/products"
           element={<StoreProductsPage />}
         />
-        {/* <Route
-          path="/{stordId}/products/{productId}"
+        <Route
+          path="/stores/:storeId/products/:productId"
           element={<ProductDetailPage />}
-        /> */}
+        />
       </Routes>
     </BrowserRouter>
   );

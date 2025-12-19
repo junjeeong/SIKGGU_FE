@@ -19,7 +19,7 @@ const StoreProductsPage = () => {
       <ul className="pb-[60px] overflow-scroll">
         {PRODUCT_LIST.map((product) => {
           return (
-            <li>
+            <li key={product.id}>
               <ProductInformationCard info={product} />
             </li>
           );

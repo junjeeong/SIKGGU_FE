@@ -1,9 +1,12 @@
 const ProductMenuNavBar = () => {
   return (
     <ul className="min-h-[40px] flex items-center w-full overflow-x-auto border-b border-gray-50 whitespace-nowrap no-scrollbar">
-      {MENU_LIST.map((category) => {
+      {MENU_LIST.map((category, index) => {
         return (
-          <li className="w-[80px] flex-shrink-0 flex justify-center items-center cursor-pointer hover:text-green-600 transition-colors">
+          <li
+            key={index}
+            className="w-[80px] flex-shrink-0 flex justify-center items-center cursor-pointer hover:text-green-600 transition-colors"
+          >
             {category}
           </li>
         );
