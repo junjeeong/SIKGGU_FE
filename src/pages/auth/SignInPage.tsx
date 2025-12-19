@@ -2,7 +2,7 @@ import { authApi } from "@/api/auth";
 import AuthPageLayout from "@/components/layout/AuthPageLayout";
 import GoogleIcon from "@/components/svg/GoogleIcon";
 import KakaoIcon from "@/components/svg/KakaoIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
@@ -31,6 +31,15 @@ const SignInPage = () => {
       console.error("Login Error:", error);
     }
   };
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    if (token) {
+      alert('계정이 로그인 되어 있어 "/stores" 페이지로 리다이렉트 됩니다.');
+      navigate("/stores", { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <AuthPageLayout>
