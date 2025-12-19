@@ -1,11 +1,35 @@
+import { authApi } from "@/api/auth";
 import AuthPageLayout from "@/components/layout/AuthPageLayout";
 import GoogleIcon from "@/components/svg/GoogleIcon";
 import KakaoIcon from "@/components/svg/KakaoIcon";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const SignInPage = () => {
-  const handleSubmit = () => {
-    //@TODO 로그인 api 요청 로직 추가해야 함.
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const fetchSignIn = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const data = await authApi.signIn({
+        email,
+        password,
+      });
+
+      localStorage.setItem("accessToken", data.accessToken);
+      alert("성공적으로 로그인되었습니다.");
+      navigate("/stores");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message ||
+        "로그인에 실패했습니다. 정보를 확인해주세요.";
+      alert(errorMessage);
+      console.error("Login Error:", error);
+    }
   };
 
   return (
@@ -18,13 +42,15 @@ const SignInPage = () => {
           className="flex"
         />
       </Link>
-      <form action={handleSubmit} className="mt-4">
+      <form onSubmit={fetchSignIn} className="mt-4">
         <label htmlFor="email" className="block font-bold text-sikggu-gray-700">
           이메일
         </label>
         <input
-          type="email"
           id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="이메일을 입력해주세요."
           className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary text-sikggu-gray"
         />
@@ -35,8 +61,10 @@ const SignInPage = () => {
           비밀번호
         </label>
         <input
-          type="password"
           id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
           placeholder="비밀번호를 입력해주세요."
           className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
         />

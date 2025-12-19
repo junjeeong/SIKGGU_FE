@@ -1,23 +1,62 @@
-import { Link } from "react-router-dom";
+import { authApi } from "@/api/auth";
+import { useState } from "react";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import AuthPageLayout from "../../components/layout/AuthPageLayout";
 import GoogleIcon from "../../components/svg/GoogleIcon";
 import KakaoIcon from "../../components/svg/KakaoIcon";
 
 const SignUpUserForm = () => {
-  const handleSubmit = () => {
-    //@TODO 회원가입 api 요청 로직 추가해야 함.
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const type = searchParams.get("type");
+  const userRole = type === "user" ? "USER" : "STORE";
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const postSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      alert("❌ 비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    try {
+      await authApi.signUp({
+        email,
+        password,
+        nickname,
+        phoneNumber,
+        role: userRole,
+      });
+
+      alert("✅ 회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
+      navigate("/sign-in");
+    } catch (error: any) {
+      const errorMessage =
+        error.response?.data?.message || "❌ 회원가입에 실패했습니다.";
+      alert(errorMessage);
+    }
   };
 
   return (
     <AuthPageLayout role="자취생" signInOrSignup="회원가입">
-      <form action={handleSubmit} className="mt-4">
+      <form onSubmit={postSignUp} className="mt-4">
         <label htmlFor="email" className="block font-bold text-sikggu-gray-700">
           이메일
         </label>
         <input
-          type="email"
           id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder="이메일을 입력해주세요."
+          required
           className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary text-sikggu-gray"
         />
         <label
@@ -27,9 +66,12 @@ const SignUpUserForm = () => {
           비밀번호
         </label>
         <input
-          type="password"
           id="password"
-          placeholder="비밀번호를 입력해주세요."
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="영문, 숫자, 특수문자 중 2가지 포함 8~20자"
+          required
           className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
         />
         <label
@@ -39,9 +81,12 @@ const SignUpUserForm = () => {
           비밀번호 확인
         </label>
         <input
-          type="password"
           id="confirmPassword"
-          placeholder="비밀번호를 입력해주세요."
+          type="password"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          placeholder="비밀번호를 다시 입력해주세요."
+          required
           className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
         />
         <label
@@ -51,9 +96,12 @@ const SignUpUserForm = () => {
           닉네임
         </label>
         <input
-          type="text"
           id="nickname"
+          type="text"
+          value={nickname}
+          onChange={(e) => setNickname(e.target.value)}
           placeholder="닉네임을 입력해주세요."
+          required
           className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
         />
         <label
@@ -63,9 +111,12 @@ const SignUpUserForm = () => {
           전화번호
         </label>
         <input
-          type="text"
           id="phoneNumber"
-          placeholder="전화번호를 입력해주세요."
+          type="text"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          placeholder="010-1234-5678"
+          required
           className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
         />
         <button
