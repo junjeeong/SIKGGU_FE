@@ -1,7 +1,7 @@
+import AuthPageLayout from "@/components/layout/AuthPageLayout";
+import GoogleIcon from "@/components/svg/GoogleIcon";
+import KakaoIcon from "@/components/svg/KakaoIcon";
 import { Link } from "react-router-dom";
-import AuthPageLayout from "../../components/layout/AuthPageLayout";
-import GoogleIcon from "../../components/svg/GoogleIcon";
-import KakaoIcon from "../../components/svg/KakaoIcon";
 
 const SignInPage = () => {
   const handleSubmit = () => {
@@ -10,7 +10,7 @@ const SignInPage = () => {
 
   return (
     <AuthPageLayout>
-      <Link to="/" className="flex justify-center">
+      <Link to="/" className="flex justify-center mt-6">
         <img
           src="/images/logo_mini.png"
           width={400}

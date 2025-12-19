@@ -1,7 +1,9 @@
+import StoreProductsPage from "@/pages/store/StoreProductsPage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/home/HomePage";
 import SignInPage from "./pages/auth/SignInPage";
 import SignUpPage from "./pages/auth/SignUpPage";
+import HomePage from "./pages/home/HomePage";
+import StoresPage from "./pages/store/StoresPage";
 
 function App() {
   return (
@@ -10,8 +12,12 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/sign-in" element={<SignInPage />} />
         <Route path="/sign-up" element={<SignUpPage />} />
-        {/* <Route path="/{stordId}/products" element={<StoreProductsPage />} />
+        <Route path="/stores" element={<StoresPage />} />
         <Route
+          path="/stores/:storeId/products"
+          element={<StoreProductsPage />}
+        />
+        {/* <Route
           path="/{stordId}/products/{productId}"
           element={<ProductDetailPage />}
         /> */}

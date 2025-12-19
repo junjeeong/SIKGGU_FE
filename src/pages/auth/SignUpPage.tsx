@@ -1,7 +1,7 @@
+import SignUpIntroPage from "@/pages/auth/SignUpIntroPage";
+import SignUpStoreForm from "@/pages/auth/SignUpStoreForm";
+import SignUpUserForm from "@/pages/auth/SignUpUserForm";
 import { useSearchParams } from "react-router-dom";
-import SignUpIntroPage from "./SignUpIntroPage";
-import SignUpUserForm from "./SignUpUserForm";
-import SignUpStoreForm from "./SignUpStoreForm";
 
 const SignUpPage = () => {
   const [searchParams] = useSearchParams();

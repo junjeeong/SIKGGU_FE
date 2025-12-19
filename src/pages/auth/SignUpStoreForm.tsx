@@ -9,7 +9,7 @@ const SignUpStoreForm = () => {
   };
 
   return (
-    <AuthPageLayout>
+    <AuthPageLayout role="사장님" signInOrSignup="회원가입">
       <form action={handleSubmit} className="mt-4">
         <label htmlFor="email" className="block font-bold text-sikggu-gray-700">
           이메일
