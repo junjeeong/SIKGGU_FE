@@ -1,16 +1,12 @@
 import { authApi } from "@/api/auth";
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import AuthPageLayout from "../../components/layout/AuthPageLayout";
 import GoogleIcon from "../../components/svg/GoogleIcon";
 import KakaoIcon from "../../components/svg/KakaoIcon";
 
 const SignUpUserForm = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const type = searchParams.get("type");
-  const userRole = type === "user" ? "USER" : "STORE";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,12 +23,12 @@ const SignUpUserForm = () => {
     }
 
     try {
-      await authApi.signUp({
+      await authApi.userSignUp({
         email,
         password,
         nickname,
         phoneNumber,
-        role: userRole,
+        role: "USER" as const,
       });
 
       alert("✅ 회원가입이 완료되었습니다! 로그인 페이지로 이동합니다.");
@@ -40,7 +36,7 @@ const SignUpUserForm = () => {
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "❌ 회원가입에 실패했습니다.";
-      alert(errorMessage);
+      alert("🚨" + errorMessage);
     }
   };
 
@@ -57,7 +53,7 @@ const SignUpUserForm = () => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="이메일을 입력해주세요."
           required
-          className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary text-sikggu-gray"
+          className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary "
         />
         <label
           htmlFor="password"

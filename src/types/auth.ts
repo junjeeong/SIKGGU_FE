@@ -5,12 +5,18 @@ export interface SignInRequest {
   password: string;
 }
 
-export interface SignUpRequest {
+export interface UserSignUpRequest {
   email: string;
   password: string;
   nickname: string;
   phoneNumber: string;
   role: UserRole;
+}
+
+export interface StoreSignUpRequest extends UserSignUpRequest {
+  storeName: string;
+  storeContactNumber: string;
+  address: string;
 }
 
 export interface AuthResponse {

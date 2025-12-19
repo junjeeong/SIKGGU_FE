@@ -1,8 +1,9 @@
 import type {
   AuthResponse,
   SignInRequest,
-  SignUpRequest,
   SignUpResponse,
+  StoreSignUpRequest,
+  UserSignUpRequest,
 } from "@/types/auth";
 import axiosInstance from "./axiosInstance";
 
@@ -15,9 +16,21 @@ export const authApi = {
     return response.data;
   },
 
-  signUp: async (signUpData: SignUpRequest): Promise<SignUpResponse> => {
+  userSignUp: async (
+    signUpData: UserSignUpRequest
+  ): Promise<SignUpResponse> => {
     const response = await axiosInstance.post(
-      "/api/v1/auth/sign-up",
+      "/api/v1/auth/sign-up/user",
+      signUpData
+    );
+    return response.data;
+  },
+
+  storeSignUp: async (
+    signUpData: StoreSignUpRequest
+  ): Promise<SignUpResponse> => {
+    const response = await axiosInstance.post(
+      "/api/v1/auth/sign-up/store",
       signUpData
     );
     return response.data;

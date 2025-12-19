@@ -21,13 +21,13 @@ const SignInPage = () => {
       });
 
       localStorage.setItem("accessToken", data.accessToken);
-      alert("성공적으로 로그인되었습니다.");
+      alert("✅ 성공적으로 로그인되었습니다.");
       navigate("/stores");
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message ||
-        "로그인에 실패했습니다. 정보를 확인해주세요.";
-      alert(errorMessage);
+        "❌ 로그인에 실패했습니다. 정보를 확인해주세요.";
+      alert("🚨" + errorMessage);
       console.error("Login Error:", error);
     }
   };
@@ -36,7 +36,7 @@ const SignInPage = () => {
     const token = localStorage.getItem("accessToken");
 
     if (token) {
-      alert('계정이 로그인 되어 있어 "/stores" 페이지로 리다이렉트 됩니다.');
+      alert('🔔 계정이 로그인 되어 있어 "/stores" 페이지로 리다이렉트 됩니다.');
       navigate("/stores", { replace: true });
     }
   }, [navigate]);
