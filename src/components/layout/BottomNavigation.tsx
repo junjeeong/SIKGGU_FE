@@ -4,7 +4,7 @@ import { TfiHome } from "react-icons/tfi";
 
 const BottomNavigation = () => {
   return (
-    <div className="items-center border-gray-100 border absolute shadow-2xl bottom-0 w-full h-[60px] flex justify-around rounded-tl-2xl rounded-tr-2xl bg-white">
+    <div className="w-[600px] fixed bottom-0 items-center border-gray-300 border-[0.5px] shadow-2xl h-[60px] flex justify-around rounded-tl-2xl rounded-tr-2xl bg-white">
       <div className="flex flex-col items-center gap-1">
         <TfiHome size={20} />
         <span className="text-xs">홈</span>

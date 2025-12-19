@@ -10,9 +10,9 @@ const HeaderAndBottomNavLayout = ({
   className?: string;
 }) => {
   return (
-    <main className="flex justify-center w-screen bg-gray-50">
+    <main className="flex justify-center w-screen">
       <div
-        className={`relative h-screen w-[600px] flex flex-col bg-white shadow-sm overflow-scroll ${
+        className={`relative h-screen w-[600px] flex flex-col overflow-scroll ${
           className || ""
         }`}
       >

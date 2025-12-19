@@ -1,13 +1,12 @@
 import { Link } from "react-router-dom";
-import AuthPageLayout from "../../components/layout/AuthPageLayout";
 
 const SignUpIntroPage = () => {
   const baseButtonStyle =
     "w-[300px] text-center py-3 mt-1 text-white font-bold rounded-lg transition-colors duration-200 bg-sikggu-primary hover:bg-sikggu-primary/80";
 
   return (
-    <div className="flex items-center justify-center w-screen h-screen">
-      <main className="flex w-[1200px] gap-16">
+    <main className="flex items-center justify-center w-screen h-screen">
+      <div className="flex w-[1000px] gap-12">
         <div className="bg-sikggu-primary-50 shadow-lg w-full h-[50vh] flex flex-col items-center justify-center p-10 rounded-xl">
           <div className="flex flex-col justify-center w-full gap-1">
             <h2 className="text-2xl font-bold text-center">사장님</h2>
@@ -44,8 +43,8 @@ const SignUpIntroPage = () => {
             식재료 찾기
           </Link>
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 };
 

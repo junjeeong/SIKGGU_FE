@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const ProductInformationCard = ({ info }: { info: any }) => {
   return (
     <Link to={`/stores/1/products/${info.id}`} className="group">
-      <article className="flex w-full h-32 gap-2 border-b-2 border-gray-50 group-hover:bg-sikggu-primary-50">
+      <article className="flex w-full h-32 gap-2 border-b-2 border-gray-50 group-hover:bg-sikggu-primary-50 ">
         <figure className="flex-shrink-0 w-40 h-full overflow-hidden border-gray-50">
           <img
             src={info.image}
@@ -15,7 +15,7 @@ const ProductInformationCard = ({ info }: { info: any }) => {
         <div className="flex flex-col justify-between flex-1 p-3">
           <div>
             {/* 상품명 */}
-            <h2 className="text-xl font-bold text-gray-800 line-clamp-1 group-hover:text-sikggu-primary-600">
+            <h2 className="text-xl font-bold text-gray-800 line-clamp-1 ">
               {info.name}
             </h2>
 

@@ -1,6 +1,4 @@
 import type { ReactNode } from "react";
-import { GrPrevious } from "react-icons/gr";
-import { Router, useNavigate } from "react-router-dom";
 
 const AuthPageLayout = ({
   children,
@@ -14,9 +12,9 @@ const AuthPageLayout = ({
   signInOrSignup?: "로그인" | "회원가입";
 }) => {
   return (
-    <main className="flex items-center justify-center w-screen bg-gray-50">
+    <main className="flex items-center justify-center w-screen ">
       <div
-        className={`h-screen p-8 w-[640px] flex flex-col bg-white shadow-sm overflow-scroll ${
+        className={`h-screen p-8 w-[640px] flex flex-col overflow-scroll ${
           className || ""
         }`}
       >

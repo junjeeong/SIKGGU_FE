@@ -12,7 +12,7 @@ const SignInPage = () => {
     <AuthPageLayout>
       <Link to="/" className="flex justify-center mt-6">
         <img
-          src="/images/logo_mini.png"
+          src="/images/logo_typo.png"
           width={400}
           alt="SIKGGU"
           className="flex"
