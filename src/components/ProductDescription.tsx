@@ -1,19 +1,90 @@
-const ProductDescription = ({ info }: { info: any }) => {
+import { PRODUCT_CATEGORY_LABEL, type ProductResponse } from "@/types/product";
+
+const ProductDescription = ({ info }: { info: ProductResponse }) => {
   const handleClick = () => {
     alert("🛠️ 서비스 개발중...");
   };
 
+  // 할인율 계산
+  const discountRate = Math.round(
+    ((info.originalPrice - info.salePrice) / info.originalPrice) * 100
+  );
+
   return (
-    <section className="h-[500px] flex flex-col gap-4 p-4 pb-[80px]">
-      <h3 className="text-3xl">{info.name}</h3>
-      <div className="flex gap-1">
-        <span className="underline">{info.category}</span>•
-        <span>{info.createdAt}</span>
+    <section className="flex flex-col p-5 bg-white pb-28">
+      {/* 상단 정보 섹션 */}
+      <div className="flex flex-col gap-3 pb-4 border-gray-100 ">
+        {/* 1. 카테고리 & 날짜 (밀착 배치) */}
+        <div className="flex items-center gap-3">
+          <span className="px-2 py-0.5 text-[11px] font-bold text-green-700 bg-green-50 border border-green-100 rounded-md">
+            {PRODUCT_CATEGORY_LABEL[info.ProductCategory] || "기타"}
+          </span>
+          <span className="text-[11px] font-medium text-gray-400">
+            {info.createdAt.split("T")[0]}
+          </span>
+        </div>
+
+        {/* 2. 상품명 & 가격 (동일 선상 배치) */}
+        <div className="flex items-start justify-between gap-4 pr-8">
+          <h3 className="flex-1 text-2xl font-bold leading-tight text-gray-900 break-keep">
+            {info.name}
+          </h3>
+          <div className="flex flex-col items-end shrink-0">
+            <div className="flex items-center gap-1.5 mb-1">
+              <span className="text-lg font-bold text-red-500">
+                {discountRate}%
+              </span>
+              <span className="text-xs text-gray-300 line-through decoration-gray-200">
+                {info.originalPrice.toLocaleString()}
+              </span>
+            </div>
+            <span className="text-2xl font-black tracking-tighter text-gray-900">
+              {info.salePrice.toLocaleString()}원
+            </span>
+          </div>
+        </div>
       </div>
-      <span className="text-lg font-bold text-red-500">{info.price}</span>
-      <div className="pb-8">{info.description}</div>
+
+      {/* 핵심 정보 박스 (마감기한, 수량) */}
+      <div className="flex flex-col gap-2 p-4 mb-8 border rounded-2xl bg-gray-50 border-gray-100/50">
+        <div className="flex items-center gap-3">
+          <ClockIcon className="w-5 h-5 text-gray-300" />
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+              판매 기한
+            </span>
+            <span className="text-sm font-bold text-gray-600">
+              {info.saleDeadline.replace("T", " ")} 까지
+            </span>
+          </div>
+        </div>
+        <div className="w-full h-px my-1 bg-gray-200/60" />
+        <div className="flex items-center gap-3">
+          <BoxIcon className="w-5 h-5 text-gray-300" />
+          <div className="flex flex-col">
+            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+              남은 수량
+            </span>
+            <span className="text-sm font-bold text-gray-600">
+              {info.quantity}개 남음
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* 상세 설명 */}
+      <div className="mb-8">
+        <h4 className="mb-3 text-sm font-black tracking-widest text-gray-400 uppercase">
+          상품 설명
+        </h4>
+        <p className="text-[15px] leading-relaxed text-gray-600 whitespace-pre-wrap">
+          {info.description}
+        </p>
+      </div>
+
+      {/* CTA 버튼 */}
       <button
-        className="w-full py-3 mt-1 font-bold text-center text-white transition-colors duration-200 rounded-lg bg-sikggu-primary hover:bg-sikggu-primary/80"
+        className="w-full py-4 text-lg font-bold text-white transition-all rounded-2xl bg-sikggu-primary hover:bg-sikggu-primary/80 active:scale-[0.98] shadow-xl shadow-green-100/50"
         onClick={handleClick}
       >
         예약하기
@@ -21,5 +92,39 @@ const ProductDescription = ({ info }: { info: any }) => {
     </section>
   );
 };
+
+// 인라인 아이콘 컴포넌트
+const ClockIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <circle cx="12" cy="12" r="10" />
+    <polyline points="12 6 12 12 16 14" />
+  </svg>
+);
+
+const BoxIcon = ({ className }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className={className}
+  >
+    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+    <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
+    <line x1="12" y1="22.08" x2="12" y2="12" />
+  </svg>
+);
 
 export default ProductDescription;
