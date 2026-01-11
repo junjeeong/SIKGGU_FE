@@ -1,29 +1,16 @@
+import { useQuery } from "@tanstack/react-query";
 import storeApi from "@/api/store";
 import StoreInformationCard from "@/components/card/StoreInformationCard";
 import HeaderAndBottomNavLayout from "@/components/layout/HeaderAndBottomNavLayout";
 import type { StoreResponse } from "@/types/store";
-import { useEffect, useState } from "react";
 
 const StoresPage = () => {
-  const [stores, setStores] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const { data, isLoading } = useQuery({
+    queryKey: ["stores"],
+    queryFn: () => storeApi.getAllStores(),
+  });
 
-  useEffect(() => {
-    const fetchStores = async () => {
-      try {
-        setIsLoading(true);
-        const data = await storeApi.getAllStores();
-
-        setStores(data.list || []);
-      } catch (error) {
-        console.error("상점 목록을 불러오는 중 오류가 발생했습니다:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchStores();
-  }, []);
+  const stores = data?.list || [];
 
   if (isLoading) {
     return (

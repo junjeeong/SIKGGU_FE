@@ -1,33 +1,45 @@
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import { authApi } from "@/api/auth";
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthPageLayout from "../../components/layout/AuthPageLayout";
 import GoogleIcon from "../../components/svg/GoogleIcon";
 import KakaoIcon from "../../components/svg/KakaoIcon";
 
+const signUpSchema = z
+  .object({
+    email: z.string().email("이메일 형식이 올바르지 않습니다."),
+    password: z.string().min(8, "비밀번호는 8자 이상이어야 합니다."),
+    confirmPassword: z.string(),
+    nickname: z.string().min(2, "닉네임은 2자 이상이어야 합니다."),
+    phoneNumber: z.string().min(10, "전화번호를 확인해주세요."),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "비밀번호가 일치하지 않습니다.",
+    path: ["confirmPassword"],
+  });
+
+type SignUpFormValues = z.infer<typeof signUpSchema>;
+
 const SignUpUserForm = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [nickname, setNickname] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpSchema),
+  });
 
-  const postSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (password !== confirmPassword) {
-      alert("❌ 비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
+  const onSubmit = async (data: SignUpFormValues) => {
     try {
       await authApi.userSignUp({
-        email,
-        password,
-        nickname,
-        phoneNumber,
+        email: data.email,
+        password: data.password,
+        nickname: data.nickname,
+        phoneNumber: data.phoneNumber,
         role: "USER" as const,
       });
 
@@ -36,91 +48,107 @@ const SignUpUserForm = () => {
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "❌ 회원가입에 실패했습니다.";
-      alert("🚨" + errorMessage);
+      alert(errorMessage);
     }
   };
 
   return (
     <AuthPageLayout role="자취생" signInOrSignup="회원가입">
-      <form onSubmit={postSignUp} className="mt-4">
-        <label htmlFor="email" className="block font-bold text-sikggu-gray-700">
-          이메일
-        </label>
-        <input
-          id="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="이메일을 입력해주세요."
-          required
-          className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary "
-        />
-        <label
-          htmlFor="password"
-          className="block font-bold text-sikggu-gray-700"
-        >
-          비밀번호
-        </label>
-        <input
-          id="password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="영문, 숫자, 특수문자 중 2가지 포함 8~20자"
-          required
-          className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
-        />
-        <label
-          htmlFor="confirmPassword"
-          className="block font-bold text-sikggu-gray-700"
-        >
-          비밀번호 확인
-        </label>
-        <input
-          id="confirmPassword"
-          type="password"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          placeholder="비밀번호를 다시 입력해주세요."
-          required
-          className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
-        />
-        <label
-          htmlFor="nickname"
-          className="block font-bold text-sikggu-gray-700"
-        >
-          닉네임
-        </label>
-        <input
-          id="nickname"
-          type="text"
-          value={nickname}
-          onChange={(e) => setNickname(e.target.value)}
-          placeholder="닉네임을 입력해주세요."
-          required
-          className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
-        />
-        <label
-          htmlFor="phoneNumber"
-          className="block font-bold text-sikggu-gray-700"
-        >
-          전화번호
-        </label>
-        <input
-          id="phoneNumber"
-          type="text"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-          placeholder="010-1234-5678"
-          required
-          className="w-full px-6 py-4 my-4 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
-        />
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-4">
+        {/* Email */}
+        <div>
+          <label htmlFor="email" className="block font-bold text-sikggu-gray-700">
+            이메일
+          </label>
+          <input
+            id="email"
+            type="email"
+            placeholder="이메일을 입력해주세요."
+            className="w-full px-6 py-4 mt-2 mb-2 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="mb-2 text-sm text-red-500">{errors.email.message}</p>
+          )}
+        </div>
+
+        {/* Password */}
+        <div>
+          <label htmlFor="password" className="block font-bold text-sikggu-gray-700">
+            비밀번호
+          </label>
+          <input
+            id="password"
+            type="password"
+            placeholder="8자 이상 입력해주세요"
+            className="w-full px-6 py-4 mt-2 mb-2 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
+            {...register("password")}
+          />
+          {errors.password && (
+            <p className="mb-2 text-sm text-red-500">{errors.password.message}</p>
+          )}
+        </div>
+
+        {/* Confirm Password */}
+        <div>
+          <label htmlFor="confirmPassword" className="block font-bold text-sikggu-gray-700">
+            비밀번호 확인
+          </label>
+          <input
+            id="confirmPassword"
+            type="password"
+            placeholder="비밀번호를 다시 입력해주세요."
+            className="w-full px-6 py-4 mt-2 mb-2 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
+            {...register("confirmPassword")}
+          />
+          {errors.confirmPassword && (
+            <p className="mb-2 text-sm text-red-500">{errors.confirmPassword.message}</p>
+          )}
+        </div>
+
+        {/* Nickname */}
+        <div>
+          <label htmlFor="nickname" className="block font-bold text-sikggu-gray-700">
+            닉네임
+          </label>
+          <input
+            id="nickname"
+            type="text"
+            placeholder="닉네임을 입력해주세요."
+            className="w-full px-6 py-4 mt-2 mb-2 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
+            {...register("nickname")}
+          />
+          {errors.nickname && (
+            <p className="mb-2 text-sm text-red-500">{errors.nickname.message}</p>
+          )}
+        </div>
+
+        {/* Phone Number */}
+        <div>
+          <label htmlFor="phoneNumber" className="block font-bold text-sikggu-gray-700">
+            전화번호
+          </label>
+          <input
+            id="phoneNumber"
+            type="text"
+            placeholder="010-1234-5678"
+            className="w-full px-6 py-4 mt-2 mb-2 border rounded-xl bg-sikggu-gray-100 border-sikggu-gray-300 focus:border-sikggu-primary"
+            {...register("phoneNumber")}
+          />
+          {errors.phoneNumber && (
+            <p className="mb-2 text-sm text-red-500">{errors.phoneNumber.message}</p>
+          )}
+        </div>
+
         <button
           type="submit"
-          className="flex items-center justify-center w-full py-4 my-6 text-lg font-semibold text-white transition rounded-xl bg-sikggu-primary hover:bg-sikggu-primary-500/90"
+          disabled={isSubmitting}
+          className="flex items-center justify-center w-full py-4 my-6 text-lg font-semibold text-white transition rounded-xl bg-sikggu-primary hover:bg-sikggu-primary-500/90 disabled:bg-gray-400"
         >
-          회원가입
+          {isSubmitting ? "가입 중..." : "회원가입"}
         </button>
+
+        {/* Social Login & Sign In Link */}
         <div className="flex items-center justify-between w-full h-20 px-4 my-6 rounded-xl bg-sikggu-primary-50">
           <span className="text-sikggu-gray-500 ">간편 회원가입하기</span>
           <div className="flex gap-4">

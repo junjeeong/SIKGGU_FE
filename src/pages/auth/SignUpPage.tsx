@@ -3,20 +3,20 @@ import SignUpStoreForm from "@/pages/auth/SignUpStoreForm";
 import SignUpUserForm from "@/pages/auth/SignUpUserForm";
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const type = searchParams.get("type") || "intro";
+  const { isAuthenticated } = useAuthStore();
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-
-    if (token) {
+    if (isAuthenticated) {
       alert('🔔 계정이 로그인 되어 있어 "/stores" 페이지로 리다이렉트 됩니다.');
       navigate("/stores", { replace: true });
     }
-  }, [navigate]);
+  }, [isAuthenticated, navigate]);
 
   if (type === "intro") {
     return <SignUpIntroPage />;
@@ -25,6 +25,7 @@ const SignUpPage = () => {
   } else if (type === "store") {
     return <SignUpStoreForm />;
   }
+  return null;
 };
 
 export default SignUpPage;

@@ -1,46 +1,55 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import ProductInformationCard from "@/components/card/ProductInformationCard";
 import HeaderAndBottomNavLayout from "@/components/layout/HeaderAndBottomNavLayout";
 import ProductMenuNavBar from "@/components/ProductMenuNavBar";
 import NoStoreItemMessage from "@/components/NoStoreItemMessage";
 import productApi from "@/api/product";
-import type {
-  ProductResponse,
-  ProductCategory,
-  StoreResponse,
-} from "@/types/product";
+import type { ProductCategory } from "@/types/product";
 
 const StoreProductsPage = () => {
   const { storeId } = useParams();
-  const [products, setProducts] = useState<ProductResponse[]>([]);
-  const [storeInfo, setStoreInfo] = useState<StoreResponse | null>(null);
   const [selectedCategory, setSelectedCategory] =
     useState<ProductCategory>("ALL");
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      if (storeId) {
-        try {
-          const data = await productApi.getProductsByStoreId(
-            Number(storeId),
-            selectedCategory
-          );
-          setProducts(data.products);
-          setStoreInfo(data.store); // 백엔드에서 받은 상점 정보 설정
-        } catch (error) {
-          console.error("Failed to fetch products", error);
-        }
-      }
-    };
+  // Fetch products using TanStack Query
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["products", storeId, selectedCategory],
+    queryFn: () =>
+      productApi.getProductsByStoreId(Number(storeId), selectedCategory),
+    enabled: !!storeId, // Only fetch if storeId is present
+  });
 
-    fetchProducts();
-  }, [storeId, selectedCategory]);
+  const products = data?.products || [];
+  const storeInfo = data?.store;
+
+  if (isLoading) {
+    // Simple loading state
+    return (
+      <HeaderAndBottomNavLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <p>상품 목록을 불러오는 중입니다...</p>
+        </div>
+      </HeaderAndBottomNavLayout>
+    );
+  }
+
+  if (isError) {
+    // Simple error state
+    return (
+      <HeaderAndBottomNavLayout>
+        <div className="flex items-center justify-center min-h-screen">
+          <p>상품 정보를 불러오는데 실패했습니다.</p>
+        </div>
+      </HeaderAndBottomNavLayout>
+    );
+  }
 
   return (
     <HeaderAndBottomNavLayout>
       <div className="flex flex-col min-h-screen bg-gray-50">
-        {/* 1. Hero Banner Area (상점 이미지 + 정보) */}
+        {/* 1. Hero Banner Area (Store Image + Info) */}
         <section className="relative w-full h-72 shrink-0">
           <img
             src="https://lh3.googleusercontent.com/gps-cs-s/AG0ilSzB7oAA46R42G4ahbOKIvKyKm2B7XuiS2SPmKUeJjB66Ztez5Hp4rIqprdTfUlC5ErnmzPYAcV052lTA2JUHEfx9_5bysqfofaGE8E49ZjM-TDX19ItPXiaZ7H7c7YAPZlVaE8=w520-h350-n-k-no"
@@ -57,16 +66,16 @@ const StoreProductsPage = () => {
                 영업중
               </span>
               <span className="text-xs font-light text-gray-200">
-                {storeInfo?.address || "위치 정보 로딩중..."}
+                {storeInfo?.address || "위치 정보 확인 불가"}
               </span>
             </div>
             <h1 className="text-3xl font-extrabold tracking-tight text-white drop-shadow-sm">
-              {storeInfo?.name || "상점 정보 로딩중..."}
+              {storeInfo?.name || "상점 정보 확인 불가"}
             </h1>
           </div>
         </section>
 
-        {/* 2. Sticky Category Navbar (블러 효과로 자연스럽게 연결) */}
+        {/* 2. Sticky Category Navbar */}
         <div className="sticky top-0 z-20 bg-white/95 backdrop-blur-sm shadow-sm border-b border-gray-100/50">
           <ProductMenuNavBar
             selectedCategory={selectedCategory}
@@ -74,7 +83,7 @@ const StoreProductsPage = () => {
           />
         </div>
 
-        {/* 3. Product List Area (배경색 분리로 집중도 향상) */}
+        {/* 3. Product List Area */}
         <section className="flex-1 px-4 py-6 pb-24">
           <ul className="flex flex-col gap-4">
             {products.length > 0 ? (
