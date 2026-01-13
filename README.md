@@ -1,73 +1,102 @@
-# React + TypeScript + Vite
+# 🥦 SIKGGU
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![SIKGGU Thumbnail IMAGE](image.png)
+**식구, 식재료를 구출하라!**
 
-Currently, two official plugins are available:
+동네 마트에서는 매일 멀쩡하지만 유통기한이 임박한 식재료들이 폐기되고, 1인 가구는 비싼 식재료 물가에 고통받습니다. **SIKGGU**는 이 두 가지 문제를 '위치 기반 실시간 타임세일'로 연결하여 해결하는 O2O 커머스 서비스입니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 💡 기획 배경
 
-## React Compiler
+- 최근 쿠팡 보안 사고, 대거 탈퇴 → 이제 자취생들은 식재료를 어디서 싸게 구입하지?
+- 마트에서 버섯을 살려고 했더니 아주머니께서 상태 보시고 급하게 700원에서 500원으로 깎아주심
+  → 이렇게 버려지는 상품이 몇이나 될까? 당근 나눔 하듯이 올리면 그래도 팔리지 않을까?
+- “요리는 좋아하는데… 재료 구하는 게 쉽지 않네?” → 재료 구하는 과정이 까다롭고 귀찮아. 뭔가 재미있는 요소가 없을까? (ex. 당근도 일종의 중독)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 👥 타겟(Pain Point)
 
-## Expanding the ESLint configuration
+- 마트 사장님 : “반품도 안 되는 신선식품, 오늘 못 팔면 쓰레기가 된다.”
+- 자취생/1인 가구 : “된장 찌개 해 먹고 싶은데… 애호박 하나에 3천 원이라니...”
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🤦‍♂️ 유사 서비스
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+https://www.lastorder.co.kr/market/home
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- **특징**
+  식재료보다는 외식/완제품에 강함. 알림이 오긴 하나 사용자가 근처 매장 조회 후 찾아가는 느낌이 강함
+- **차별점**
+  SIKGGU는 식재료에 특화된 O2O 커머스라는 점을 강조(쿠팡 그만 이용하고, 우리 동네 마트 살리자!), 실시간 푸시 알림을 통한 높은 즉시성 확보(당근 나눔처럼, 선착순 시스템, 경쟁구도 유도)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+https://thankyoufarmers.co.kr/
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- **특징**
+  농가나 산지에서 B급 상품(외관상 흠이 있지만 품질에 문제없는 농산물)을 저렴하게 판매하는 플랫폼
+- **차별점**
+  타겟이 다름, 파머스는 생산지라면 SIKGGU는 유통지, 접근성이 더 좋음.
+  SIKGGU는 퇴근길에 보고 바로 방문 포장 가능(ex. 배민마트, 편의점 예약)
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 🚀 핵심 기능
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **임박/B급 식재료 등록**: 유통 기한이 얼마 남지 않았거나, B급(예: 상태가 좋지 않은 버섯 등) 식재료를 보다 저렴한 가격으로 등록합니다.
+- **위치 기반 실시간 알림**: 상품을 등록하면 설정된 근방 N(km) 내에 있는 회원들에게 실시간으로 알림을 보냅니다.
+- **선착순 구매 및 방문 포장**: 알림을 받은 회원이 선착순으로 예약합니다. (결제 process는 추후 구현 과제)
+
+## 🏁 기술적 도전 과제
+
+- **재고 동시성 제어 :** 마감 임박 '반값 족발' 재고가 딱 1개 남은 상황에서 10명의 자취생이 동시에 **[예약하기]** 버튼을 눌렀습니다.
+- **위치 기반 조회 최적화 :** "내 근처 마트에서 내놓은 식자재"를 어떻게 효율적으로 빨리 찾느냐?
+- **상태 관리 및 스케줄링 :** "마감 시간이 지나면 사용자에게 노출되지 않고 빠르게 삭제되는가?”
+
+## ‼️ 비즈니스적 도전 과제
+
+- **어르신들이 대부분인, 오프라인 판매 문화가 고착화 된 식자재 마트를 어떻게 설득할 수 있을까?**
+  → 회원가입에서 상품 등록하기 까지의 UX FLOW를 극단적으로 줄이고 직관적으로 만들면 해볼만하다고 판단. (ex, 간편 회원가입, AI 상품 등록 사진 딸깍, 데이터 정확성은 흠…😡)
+  → 식자재 마트가 아니더라도, 젊은 사람들이 창업을 많이 하는 과일 가게나 반찬 가게도 효용성이 있어 보임.
+- **단위 상품은 단가가 낮음, 묶음 상품을 만들 수 있을까? 매출 기여도는?**
+  → 매출에 기여도가 높지 않아도, “덕분에 어린 친구들이 자주 보이네요”라는 목소리만 나오면 충분한 가치가 있다고 판단. 문화 바꾸기.
+
+[🗓️ MileStone](https://www.notion.so/2c4200834c4a8038bbfdc1e643404f3b?pvs=21)
+
+## 🛠️ 기술스택
+
+![스크린샷 2025-12-08 오후 9.40.14.png](attachment:c97c02df-c6a9-4ad9-a836-f6d9216e8f2d:스크린샷_2025-12-08_오후_9.40.14.png)
+
+## 📈 Ux Flow
+
+![스크린샷 2025-12-10 오후 10.20.12.png](attachment:dfc114d4-cd0e-41d8-af56-85c68a6a40ba:스크린샷_2025-12-10_오후_10.20.12.png)
+
+## 📑  ERD
+
+![Untitled diagram-2025-12-08-132304.png](attachment:5945aa8f-c64f-4da0-9ade-d3ac0a4b1da8:Untitled_diagram-2025-12-08-132304.png)
+
+## 🔗 API 엔드포인트
+
+### 인증 및 회원
+
+| **Method** | **Endpoint**           | **설명** | **핵심 요청/응답 데이터**                            |
+| ---------- | ---------------------- | -------- | ---------------------------------------------------- |
+| **POST**   | `/api/v1/auth/sign-up` | 회원가입 | `email`, `password`, `role` (STORE/USER), `nickname` |
+| **POST**   | `/api/v1/auth/sign-in` | 로그인   | `email`, `password` → **AccessToken발급**            |
+
+### 상점 관리
+
+| **Method** | **Endpoint**        | **설명**           | **핵심 요청/응답 데이터**                           |
+| ---------- | ------------------- | ------------------ | --------------------------------------------------- |
+| **POST**   | `/api/v1/stores`    | 가게 등록 (사장님) | `storeName`, `address`, **`latitude`, `longitude`** |
+| **GET**    | `/api/v1/stores/me` | 내 가게 조회       | `storeId`, `storeName`, 운영 상태 등                |
+
+### 상품
+
+| **Method** | **Endpoint**            | **설명**              | **핵심 요청/응답 데이터**                                                      |
+| ---------- | ----------------------- | --------------------- | ------------------------------------------------------------------------------ |
+| **POST**   | `/api/v1/products`      | 타임세일 상품 등록    | `storeId`, `name`, `price`, `discountPrice`, `stock`, **`deadline(마감시간)`** |
+| **GET**    | `/api/v1/products`      | **내 주변 상품 조회** | Query Param: **`lat`, `lon`, `radius(km)`**, `sort` (거리순/마감임박순)        |
+| **GET**    | `/api/v1/products/{id}` | 상품 상세 조회        | 상품 상세 정보, **현재 남은 재고 수량**                                        |
+| **DELETE** | `/api/v1/products/{id}` | 상품 삭제/마감 처리   | (스케줄러에 의해 자동 처리되거나 사장님이 수동 삭제)                           |
+
+### 주문
+
+| **Method** | **Endpoint**                 | **설명**            | **핵심 요청/응답 데이터**                                          |     |
+| ---------- | ---------------------------- | ------------------- | ------------------------------------------------------------------ | --- |
+| **POST**   | `/api/v1/orders`             | **상품 예약/구매**  | `productId`, `quantity` → **동시성 제어 필수 구간**                |     |
+| **GET**    | `/api/v1/orders`             | 내 주문 내역 조회   | `orderId`, `productName`, `status` (RESERVED, PICKED_UP, CANCELED) |     |
+| **PATCH**  | `/api/v1/orders/{id}/pickup` | 방문 수령 완료 처리 | `orderId` (사장님이 QR 체크 등으로 상태 변경 시 호출)              |     |
