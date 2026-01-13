@@ -95,8 +95,8 @@ https://thankyoufarmers.co.kr/
 
 ### 주문
 
-| **Method** | **Endpoint**                 | **설명**            | **핵심 요청/응답 데이터**                                          |     |
-| ---------- | ---------------------------- | ------------------- | ------------------------------------------------------------------ | --- |
-| **POST**   | `/api/v1/orders`             | **상품 예약/구매**  | `productId`, `quantity` → **동시성 제어 필수 구간**                |     |
-| **GET**    | `/api/v1/orders`             | 내 주문 내역 조회   | `orderId`, `productName`, `status` (RESERVED, PICKED_UP, CANCELED) |     |
-| **PATCH**  | `/api/v1/orders/{id}/pickup` | 방문 수령 완료 처리 | `orderId` (사장님이 QR 체크 등으로 상태 변경 시 호출)              |     |
+| **Method** | **Endpoint**                 | **설명**            | **핵심 요청/응답 데이터**                                           |     |
+| ---------- | ---------------------------- | ------------------- | ------------------------------------------------------------------- | --- |
+| **POST**   | `/api/v1/orders`             | **상품 예약/구매**  | `productId`, `quantity` → **동시성 제어 필수 구간**                 |     |
+| **GET**    | `/api/v1/orders`             | 내 주문 내역 조회   | `orderId`, `productName`, `status` (RESERVED, PICKED_UP, CANCELED)  |     |
+| **PATCH**  | `/api/v1/orders/{id}/pickup` | 방문 수령 완료 처리 | `orderId` (사장님이 QR 체크 등으로 상태 변경 시 호출하고 싶어 나는) |     |
